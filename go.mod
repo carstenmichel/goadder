@@ -1,10 +1,8 @@
-module github.ibm.com/carsten-michel/goadder
+module github.com/carstenmichel/goadder
 
 go 1.17
 
-replace (
-    github.com/carsten-michel/goadder/backend => ./backend
-)
+
 require (
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/getkin/kin-openapi v0.88.0 // indirect

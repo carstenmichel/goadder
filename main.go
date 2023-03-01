@@ -9,10 +9,10 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
-	"github.ibm.com/carsten-michel/goadder/backend"
-	swaggerui "github.ibm.com/carsten-michel/goadder/backend/swagger"
-	//instana "github.com/instana/go-sensor"
-	//"github.com/instana/go-sensor/instrumentation/instaecho"
+	"github.com/carstenmichel/goadder/backend"
+	swaggerui "github.com/carstenmichel/goadder/backend/swagger"
+	instana "github.com/instana/go-sensor"
+	"github.com/instana/go-sensor/instrumentation/instaecho"
 )
 
 func setupEcho() *echo.Echo {
@@ -29,8 +29,8 @@ func setupEcho() *echo.Echo {
 	swaggerui.Mount(e)
 	backend.RegisterWarehouse(e)
 
-	//sensor := instana.NewSensor("echo-sensor")
-	//e.Use(instaecho.Middleware(sensor))
+	sensor := instana.NewSensor("echo-sensor")
+	e.Use(instaecho.Middleware(sensor))
 	return e
 
 }

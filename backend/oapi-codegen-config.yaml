@@ -1,0 +1,7 @@
+output:
+  warehouse_delegate_gen.go
+package: backend
+generate:
+  - server
+  - types
+  - spec

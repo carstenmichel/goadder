@@ -1,0 +1,47 @@
+openapi: '3.0.2'
+info:
+  title: Addition Service for numbers
+  version: '1.0'
+servers:
+  - url: /api/v1
+paths:
+  /addition:
+    post: 
+      description: Add two numbers
+      operationId: addNumbers
+      requestBody:
+        description: Numbers to be added
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Numbers'
+      responses:
+        '200':
+          description:   result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'      
+components: 
+  schemas:
+    Numbers:
+      description: Holds two numbers to be operated on
+      required:
+          - numberone
+          - numbertwo
+      type: object
+      properties:
+        numberone:
+          type: number
+          description: First Number
+        numbertwo:
+          type: number
+          description: Second Number
+    Result:
+      description: Holds the result of the operation
+      type: object
+      properties:
+        resultingvalue:
+          type: number
+          description: result
+

@@ -21,7 +21,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Result'      
+                $ref: '#/components/schemas/Result'
+  /concat:
+    post: 
+      description: concat two strings
+      operationId: concatStrings
+      requestBody:
+        description: Strings to be concatenated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Texts'
+      responses:
+        '200':
+          description:   result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'      
 components: 
   schemas:
     Numbers:
@@ -37,11 +54,31 @@ components:
         numbertwo:
           type: number
           description: Second Number
+    Texts:
+      description: Holds two strings to be operated on
+      required:
+          - stringone
+          - stringtwo
+      type: object
+      properties:
+        stringone:
+          type: string
+          description: First Number
+        stringtwo:
+          type: string
+          description: Second Number
     Result:
       description: Holds the result of the operation
       type: object
       properties:
         resultingvalue:
           type: number
+          description: result
+    ResultString:
+      description: Holds the result of the operation
+      type: object
+      properties:
+        resultingvalue:
+          type: string
           description: result
 

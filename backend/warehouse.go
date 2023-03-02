@@ -49,3 +49,21 @@ func (w *Warehouse) AddNumbers(ctx echo.Context) error {
 	}
 	return ctx.JSON(http.StatusOK, rr)
 }
+
+func (w *Warehouse) ConcatStrings(ctx echo.Context) error {
+	log.Printf("AddNumbers has started")
+	var newStrings Texts
+
+	err := ctx.Bind(&newStrings)
+	log.Printf("working with %v\n", newStrings)
+	if err != nil {
+		log.Printf("Error %v\n", err)
+		ctx.JSON(http.StatusBadRequest, "Invalid format for Numbers")
+		return nil
+	}
+	floatR := newStrings.Stringone + newStrings.Stringtwo
+	rr := ResultString{
+		Resultingvalue: &floatR,
+	}
+	return ctx.JSON(http.StatusOK, rr)
+}

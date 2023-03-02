@@ -31,14 +31,35 @@ type Result struct {
 	Resultingvalue *float32 `json:"resultingvalue,omitempty"`
 }
 
+// ResultString Holds the result of the operation
+type ResultString struct {
+	// Resultingvalue result
+	Resultingvalue *string `json:"resultingvalue,omitempty"`
+}
+
+// Texts Holds two strings to be operated on
+type Texts struct {
+	// Stringone First Number
+	Stringone string `json:"stringone"`
+
+	// Stringtwo Second Number
+	Stringtwo string `json:"stringtwo"`
+}
+
 // AddNumbersJSONRequestBody defines body for AddNumbers for application/json ContentType.
 type AddNumbersJSONRequestBody = Numbers
+
+// ConcatStringsJSONRequestBody defines body for ConcatStrings for application/json ContentType.
+type ConcatStringsJSONRequestBody = Texts
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 
 	// (POST /addition)
 	AddNumbers(ctx echo.Context) error
+
+	// (POST /concat)
+	ConcatStrings(ctx echo.Context) error
 }
 
 // ServerInterfaceWrapper converts echo contexts to parameters.
@@ -52,6 +73,15 @@ func (w *ServerInterfaceWrapper) AddNumbers(ctx echo.Context) error {
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.AddNumbers(ctx)
+	return err
+}
+
+// ConcatStrings converts echo context to params.
+func (w *ServerInterfaceWrapper) ConcatStrings(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.ConcatStrings(ctx)
 	return err
 }
 
@@ -84,19 +114,21 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 	}
 
 	router.POST(baseURL+"/addition", wrapper.AddNumbers)
+	router.POST(baseURL+"/concat", wrapper.ConcatStrings)
 
 }
 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/6xTsZLiMAz9FY/uygwJXJeOK27uGoqjZCiMrSxmguW1lTAMk3/fsR1YWEK3nZwnPb0n",
-	"KRdQdHRk0XKA+gJB7fEoU7jqjjv0KdQYlDeODVmo4S+1Ogg+kbA5RTCJHQpy6CWjFmShAOfjmw0mhpxJ",
-	"Fp/p/hgfWORuUACfHUI9FsBQjBGf6Ll0jYqsflk7FODxvTMeNdSbOw33pNtbGe0OqDi2/I+ha/ml8z0K",
-	"nzIENemVnZsJ3znP2Ldett2E+YxPSv+iKn4ytklTYMNtxJZam0gk1uh7o1A05K9LgQJ69CG3mc+q6Isc",
-	"WukM1PBrVs0WUa3kfRJaypErPhyFCfdLre+3Dokv+/6nM766QXHwGPg36XNkUmQZbSKVzrVGpbLyEHLD",
-	"fHYx+umxgRp+lJ93WY5HWV7Z0yweta0eLlFqjRrS+oMjG/IuFlX1bVLGC5lQ4m9IxAL6Pv1Emwt0voUa",
-	"SulM2c9h2A4fAQAA//+fpbTWfQMAAA==",
+	"H4sIAAAAAAAC/8RVTW/bMAz9KwK3o1Gn3c23bsCwXXKYdyt6UCSmUeGImsS4KwL/90GikzqIU6zAPm4U",
+	"SD4+PpP0HgxtA3n0nKDZQzIb3OpiLnfbFcZiWkwmusCOPDTwhTqbFD+R8hKimNQKFQWMmtEq8lBBiPnN",
+	"DguCRJLHc7jPLiZWUg0q4OeA0IwJMFSjxU90ntqiIW8v5g4VRPyxcxEtNHcTDlPQ+2MarR7RcC75DdOu",
+	"44udb1DFEqFoXV7SuZvpW+Kcf+h1t5tpXvyz1C+wajk6//A/uCWpPMvtO/7kV0dFkn9nVCTyDaNy4FWN",
+	"1ltGZdLTdFReOExBz0cl5zm/LvXYcZd9t9a6XFS1GHtnUK0pHjYFKugxJqF0fbXIpCmg18FBAx+uFlc3",
+	"WQ/NmyJFrUes/AiUZkby1trpKkLBkw/+1Yp/eXTlFjHxR7LPGcmQZ/QFVIfQOVPS6sckBeUWZOt9xDU0",
+	"8K5+ORb1eCnqA3rR4pTb8uQ8aGvRQhE6BfJJvvbNYvHHqIxrO8MkHj1DBbUhbzRf1lT807E9k/VTCWmP",
+	"3r+hrOzUTDftyS4JW/R5n/6BvO1hY14TOe8ixr78Pu72sIsdNFDr4Or+Gob74VcAAAD//w6X9xV3BgAA",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
